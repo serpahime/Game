@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камень, Ножницы, Бумага</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #36393f;
+            color: #dcddde;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .game-area {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .choices {
+            display: flex;
+            gap: 15px;
+        }
+        .choice-btn {
+            background-color: #5865F2;
+            border: none;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .choice-btn:hover {
+            transform: scale(1.1);
+            background-color: #4752C4;
+        }
+        .result-area {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .vs {
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Камень, Ножницы, Бумага</h1>
+    <p>Сделайте свой выбор!</p>
+
+    <div class="game-area">
+        <div class="player-choice">
+            <h3>Ваш выбор</h3>
+            <div id="player-display" style="font-size: 50px; height: 60px;"></div>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="bot-choice">
+            <h3>Выбор бота</h3>
+            <div id="bot-display" style="font-size: 50px; height: 60px;"></div>
+        </div>
+    </div>
+
+    <div class="choices">
+        <button class="choice-btn" onclick="play('rock')">🗿</button>
+        <button class="choice-btn" onclick="play('scissors')">✂️</button>
+        <button class="choice-btn" onclick="play('paper')">📄</button>
+    </div>
+
+    <div class="result-area" id="result"></div>
+
+    <script>
+        const choices = ['rock', 'scissors', 'paper'];
+        const emojis = { rock: '🗿', scissors: '✂️', paper: '📄' };
+
+        function play(playerChoice) {
+            const botChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            document.getElementById('player-display').textContent = emojis[playerChoice];
+            document.getElementById('bot-display').textContent = emojis[botChoice];
+
+            const result = determineWinner(playerChoice, botChoice);
+            const resultElement = document.getElementById('result');
+
+            if (result === 'win') {
+                resultElement.textContent = 'Вы победили!';
+                resultElement.style.color = '#43B581'; // Зеленый
+            } else if (result === 'lose') {
+                resultElement.textContent = 'Вы проиграли!';
+                resultElement.style.color = '#F04747'; // Красный
+            } else {
+                resultElement.textContent = 'Ничья!';
+                resultElement.style.color = '#FAA61A'; // Желтый
+            }
+        }
+
+        function determineWinner(player, bot) {
+            if (player === bot) return 'draw';
+            if (
+                (player === 'rock' && bot === 'scissors') ||
+                (player === 'scissors' && bot === 'paper') ||
+                (player === 'paper' && bot === 'rock')
+            ) {
+                return 'win';
+            }
+            return 'lose';
+        }
+    </script>
+
+</body>
+</html>
